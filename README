@@ -1,0 +1,22 @@
+DoorDash Android Take-Home Project
+- Remon Karim (skremon@gmail.com)
+
+Implements an Activity showing basic information on restaurants found near a specific geo-location.
+The screen is implemented in FinderFragment, which is added into FinderActivity.
+This was done particularly to inject a ViewModel dependency into the Fragment to make testing easier by
+mocking FinderViewModel. This is otherwise tricky to inject into an Activity.
+
+Architecture used was a UI - ViewModel - Repository.
+The goal is to be able to test Activity by mocking ViewModel, to test ViewModel by mocking Repository etc.
+
+Libraries/dependencies used:
+Retrofit to make api calls and process response, along with GSON for converting json data into model objects.
+Picasso to load images into views using urls.
+Mockk to mock objects in test code.
+
+Tests:
+Wrote 2 tests to demonstrate how the main fragment and ViewModel can be tested by mocking their dependencies.
+FinderFragment was tested using androidTest with Espresso.
+FinderViewModel was tested with simple junit unit tests.
+RestaurantRepository tests were not written, but will follow a similar approach to the ViewModel test.
+
