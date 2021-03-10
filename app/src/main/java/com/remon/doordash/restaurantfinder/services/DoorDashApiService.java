@@ -1,9 +1,11 @@
 package com.remon.doordash.restaurantfinder.services;
 
+import com.remon.doordash.restaurantfinder.data.RestaurantDetail;
 import com.remon.doordash.restaurantfinder.data.StoreFeed;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface DoorDashApiService {
@@ -19,4 +21,10 @@ public interface DoorDashApiService {
     Call<StoreFeed> storeFeedByPageOffset(@Query("lat") double lat,
                                           @Query("lng") double lng,
                                           @Query("offset") int offset);
+
+    /**
+     * /v2/restaurant/<restaurant_id>/
+     */
+    @GET("v2/restaurant/{restaurantId}")
+    Call<RestaurantDetail> getRestaurantDetails(@Path("restaurantId") int id);
 }

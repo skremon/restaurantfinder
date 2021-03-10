@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/restaurant_detail"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.RestaurantDetailFragment">
+
+    <ProgressBar
+        android:id="@+id/progress_indicator"
+        style="@android:style/Widget.Material.Light.ProgressBar.Large"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/average_rating_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:text="@string/rating_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/average_rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:textSize="14sp"
+        tools:text="4.6"
+        app:layout_constraintStart_toEndOf="@id/average_rating_title"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:textSize="14sp"
+        tools:text="4.6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:textSize="13sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/average_rating_title" />
+
+    <!-- Placeholder view to demonstrate scrollable area -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="800dp"
+        android:layout_marginTop="30dp"
+        android:gravity="center"
+        android:text="@string/coming_soon"
+        app:layout_constraintTop_toBottomOf="@id/description"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

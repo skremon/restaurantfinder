@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Restaurant Finder</string>
     <string name="restaurant_logo">Restaurant logo</string>
+    <string name="restaurant_cover_image">Restaurant cover image</string>
+    <string name="rating_title">Average rating: </string>
+    <string name="coming_soon">Coming soon...</string>
 </resources>
