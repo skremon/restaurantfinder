@@ -9,7 +9,7 @@ import com.remon.doordash.restaurantfinder.R
 import com.remon.doordash.restaurantfinder.services.ServiceLocator
 import com.remon.doordash.restaurantfinder.viewmodel.FinderViewModel
 
-open class FinderActivity : AppCompatActivity(R.layout.activity_finder) {
+open class FinderActivity : AppCompatActivity(R.layout.finder_activity) {
 
     // Ref: https://developer.android.com/guide/fragments/fragmentmanager?hl=en#dependencies
     class FinderFragmentFactory(val finderViewModel: FinderViewModel) : FragmentFactory() {
@@ -20,7 +20,6 @@ open class FinderActivity : AppCompatActivity(R.layout.activity_finder) {
             }
     }
 
-    // Override in test code to provide a different ViewModelProvider
     private fun createViewModel() = ViewModelProvider(this, ServiceLocator.provideFinderViewModelFactory()).get(FinderViewModel::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {

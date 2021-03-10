@@ -9,7 +9,7 @@ import com.remon.doordash.restaurantfinder.data.Restaurant
 import com.remon.doordash.restaurantfinder.databinding.RestaurantListItemBinding
 import com.squareup.picasso.Picasso
 
-class RestaurantListAdapter : RecyclerView.Adapter<RestaurantListAdapter.RestaurantViewHolder>() {
+class RestaurantListAdapter(val itemClickListener: RestaurantItemListener) : RecyclerView.Adapter<RestaurantListAdapter.RestaurantViewHolder>() {
 
     // Ref: https://developer.android.com/reference/androidx/recyclerview/widget/AsyncListDiffer
     private val listDiffer = AsyncListDiffer<Restaurant>(this, object : DiffUtil.ItemCallback<Restaurant>() {
@@ -24,9 +24,12 @@ class RestaurantListAdapter : RecyclerView.Adapter<RestaurantListAdapter.Restaur
 
     class RestaurantViewHolder(private val binding: RestaurantListItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(restaurant: Restaurant) {
+        fun bind(restaurant: Restaurant, itemClickListener: RestaurantItemListener) {
             binding.name.text = restaurant.name
             binding.description.text = restaurant.description
+            binding.root.setOnClickListener {
+                itemClickListener.onClick(restaurant)
+            }
             if (restaurant.coverImageUrl.isNotEmpty()) {
                 Picasso.get().load(restaurant.coverImageUrl)
                     .placeholder(android.R.drawable.ic_menu_gallery)
@@ -44,10 +47,14 @@ class RestaurantListAdapter : RecyclerView.Adapter<RestaurantListAdapter.Restaur
     }
 
     override fun onBindViewHolder(holder: RestaurantViewHolder, position: Int) {
-        holder.bind(listDiffer.currentList[position])
+        holder.bind(listDiffer.currentList[position], itemClickListener)
     }
 
     fun submitData(listRestaurants: List<Restaurant>) {
         listDiffer.submitList(listRestaurants)
     }
+}
+
+class RestaurantItemListener(val clickListener: (restaurantId: Int) -> Unit) {
+    fun onClick(restaurant: Restaurant) = clickListener(restaurant.id)
 }
