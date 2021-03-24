@@ -3,9 +3,9 @@ package com.remon.doordash.restaurantfinder.viewmodel
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import com.remon.doordash.restaurantfinder.data.ApiResult
 import com.remon.doordash.restaurantfinder.data.Restaurant
 import com.remon.doordash.restaurantfinder.data.StoreFeed
-import com.remon.doordash.restaurantfinder.data.StoreFeedResult
 import com.remon.doordash.restaurantfinder.repository.RestaurantsRepository
 import io.mockk.MockKAnnotations
 import io.mockk.every
@@ -55,7 +55,7 @@ class FinderViewModelTest {
         val mockObserver = mockk<Observer<List<Restaurant>?>>()
         viewModel.restaurants.observeForever(mockObserver)
 
-        val storeFeed = MutableLiveData<StoreFeedResult<StoreFeed>>()
+        val storeFeed = MutableLiveData<ApiResult<StoreFeed>>()
         every { repository.getRestaurantsAround(0.0, 0.0) } returns storeFeed
         viewModel.fetchRestaurantsAroundLocation(0.0, 0.0)
         verify { repository.getRestaurantsAround(0.0, 0.0) }
@@ -67,7 +67,7 @@ class FinderViewModelTest {
         val mockObserver = mockk<Observer<List<Restaurant>?>>(relaxUnitFun = true)
         viewModel.restaurants.observeForever(mockObserver)
 
-        val storeFeed = MutableLiveData<StoreFeedResult<StoreFeed>>()
+        val storeFeed = MutableLiveData<ApiResult<StoreFeed>>()
         every { repository.getRestaurantsAround(0.0, 0.0) } returns storeFeed
 
         viewModel.fetchRestaurantsAroundLocation(0.0, 0.0)
@@ -75,7 +75,7 @@ class FinderViewModelTest {
 
         val restaurantList = arrayListOf(Restaurant(1, "Bongos", "Tropical foods and fruits", ""),
             Restaurant(1, "Cocos", "Caribbean delights", ""))
-        storeFeed.value = StoreFeedResult.SUCCESS(StoreFeed(200, 50, restaurantList))
+        storeFeed.value = ApiResult.SUCCESS(StoreFeed(200, 50, restaurantList))
 
         verify { mockObserver.onChanged(restaurantList) }
     }
