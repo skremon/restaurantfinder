@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import com.remon.doordash.restaurantfinder.adapters.FavoriteItemListener
 import com.remon.doordash.restaurantfinder.adapters.RestaurantItemListener
 import com.remon.doordash.restaurantfinder.adapters.RestaurantListAdapter
 import com.remon.doordash.restaurantfinder.databinding.FinderFragmentBinding
@@ -38,6 +39,9 @@ class FinderFragment() : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val restaurantsAdapter = RestaurantListAdapter(RestaurantItemListener { restaurantId ->
             viewModel.onRestaurantItemClicked(restaurantId)
+        },
+        FavoriteItemListener { restaurantId ->
+            viewModel.onFavoriteClicked(restaurantId)
         })
         viewBinding.restaurantListView.adapter = restaurantsAdapter
 

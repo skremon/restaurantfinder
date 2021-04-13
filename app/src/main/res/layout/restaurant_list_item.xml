@@ -41,6 +41,15 @@
         app:layout_constraintTop_toBottomOf="@+id/name"
         tools:text="Burgers, Fast Food, Sandwiches, American, Vegetarian, Gluten-Free, Salads" />
 
+    <TextView
+        android:id="@+id/is_favorite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_margin="8dp"
+        tools:text="Favorite"
+        />
     <View android:layout_height="1dp"
         android:layout_width="match_parent"
         android:background="@color/light_grey"

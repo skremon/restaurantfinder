@@ -29,7 +29,7 @@ class RestaurantDetailActivity : AppCompatActivity() {
     private val viewBinding
         get() = _viewBinding!!
 
-    private fun createViewModel(restaurantId: Int) = ViewModelProvider(this, ServiceLocator.provideRestaurantViewModelFactory(restaurantId)).get(
+    private fun createViewModel(restaurantId: Int) = ViewModelProvider(this, ServiceLocator.provideRestaurantViewModelFactory(restaurantId, this)).get(
         RestaurantViewModel::class.java).also {
             viewModel = it
     }

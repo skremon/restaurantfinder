@@ -20,7 +20,7 @@ open class FinderActivity : AppCompatActivity(R.layout.finder_activity) {
             }
     }
 
-    private fun createViewModel() = ViewModelProvider(this, ServiceLocator.provideFinderViewModelFactory()).get(FinderViewModel::class.java)
+    private fun createViewModel() = ViewModelProvider(this, ServiceLocator.provideFinderViewModelFactory(this)).get(FinderViewModel::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         supportFragmentManager.fragmentFactory = FinderFragmentFactory(createViewModel())

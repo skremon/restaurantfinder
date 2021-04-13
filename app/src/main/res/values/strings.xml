@@ -4,4 +4,6 @@
     <string name="restaurant_cover_image">Restaurant cover image</string>
     <string name="rating_title">Average rating: </string>
     <string name="coming_soon">Coming soon...</string>
+    <string name="is_favorite">Fav!</string>
+    <string name="mark_favorite">++</string>
 </resources>

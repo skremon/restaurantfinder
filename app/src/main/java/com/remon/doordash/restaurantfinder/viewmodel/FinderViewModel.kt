@@ -4,6 +4,7 @@ import androidx.lifecycle.*
 import com.remon.doordash.restaurantfinder.data.Restaurant
 import com.remon.doordash.restaurantfinder.data.StoreFeed
 import com.remon.doordash.restaurantfinder.data.ApiResult
+import com.remon.doordash.restaurantfinder.data.RestaurantClient
 import com.remon.doordash.restaurantfinder.repository.RestaurantsRepository
 
 open class FinderViewModel(private val repository: RestaurantsRepository) : ViewModel() {
@@ -15,7 +16,7 @@ open class FinderViewModel(private val repository: RestaurantsRepository) : View
     }
 
     private val storeFeedRequest: MutableLiveData<StoreFeed.Request> = MutableLiveData()
-    private val storeFeedResult: LiveData<ApiResult<StoreFeed>> = Transformations.switchMap(storeFeedRequest) {
+    private val storeFeedResult: LiveData<ApiResult<List<RestaurantClient>>> = Transformations.switchMap(storeFeedRequest) {
         repository.getRestaurantsAround(it.lat, it.lng)
     }
 
@@ -24,9 +25,9 @@ open class FinderViewModel(private val repository: RestaurantsRepository) : View
         get() = _navigateToRestaurantDetail
 
     // Observable to read a list of updated restaurants
-    open var restaurants: LiveData<List<Restaurant>?> = Transformations.map(storeFeedResult) {
+    open var restaurants: LiveData<List<RestaurantClient>?> = Transformations.map(storeFeedResult) {
         if (it is ApiResult.SUCCESS) {
-            it.data?.restaurants
+            it.data
         } else null
     }
 
@@ -43,5 +44,9 @@ open class FinderViewModel(private val repository: RestaurantsRepository) : View
 
     open fun onRestaurantItemClicked(restaurantId: Int) {
         _navigateToRestaurantDetail.value = restaurantId
+    }
+
+    fun onFavoriteClicked(restaurantId: Int) {
+        repository.toggleFavorite(restaurantId)
     }
 }

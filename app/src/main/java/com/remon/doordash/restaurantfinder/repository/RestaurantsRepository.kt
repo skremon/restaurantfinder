@@ -11,30 +11,37 @@ import retrofit2.Response
 /**
  * Talks to api services to get data and publish them in observable LiveData objects.
  */
-class RestaurantsRepository(private val apiService: DoorDashApiService) {
+class RestaurantsRepository(private val apiService: DoorDashApiService, private val favoritesDataStore: FavoritesDataStore) {
 
-    private val storeFeed = MutableLiveData<ApiResult<StoreFeed>>()
+    private val restaurantList = MutableLiveData<ApiResult<List<RestaurantClient>>>()
     private val restaurantDetail = MutableLiveData<ApiResult<RestaurantDetail>>()
 
-    fun getRestaurantsAround(lat: Double, lng: Double) : LiveData<ApiResult<StoreFeed>> {
+    fun getRestaurantsAround(lat: Double, lng: Double) : LiveData<ApiResult<List<RestaurantClient>>> {
 
         apiService.defaultStoreFeed(lat, lng).enqueue(object: Callback<StoreFeed> {
+
             override fun onFailure(call: Call<StoreFeed>, t: Throwable) {
-                storeFeed.value = ApiResult.FAILURE(t.toString())
-            }
+                restaurantList.value = ApiResult.FAILURE(t.toString())           }
 
             override fun onResponse(call: Call<StoreFeed>, response: Response<StoreFeed>) {
                 if (response.isSuccessful) {
-                    storeFeed.value = response.body()?.let { ApiResult.SUCCESS(it) }
+
+                    restaurantList.value = response.body()?.let {
+                        it.restaurants.map {
+                            it.toClient(favoritesDataStore.isFavorite(it.id))
+                        }.let {
+                            ApiResult.SUCCESS(it)
+                        }
+                    }
                 } else {
-                    storeFeed.value = response.errorBody()?.string()?.let {
+                    restaurantList.value = response.errorBody()?.string()?.let {
                         ApiResult.FAILURE(it)
                     }
                 }
             }
         })
 
-        return storeFeed
+        return restaurantList
     }
 
     fun getRestaurantDetails(id: Int): LiveData<ApiResult<RestaurantDetail>> {
@@ -55,5 +62,28 @@ class RestaurantsRepository(private val apiService: DoorDashApiService) {
         })
 
         return restaurantDetail
+    }
+
+    fun toggleFavorite(id: Int) {
+        var isFavorite = false
+        if (favoritesDataStore.isFavorite(id)) {
+            favoritesDataStore.removeFavorite(id)
+            isFavorite = false
+        } else {
+            favoritesDataStore.setFavorite(id)
+            isFavorite = true
+        }
+
+        restaurantList.value = restaurantList.value?.let {
+            it.data?.map {
+                if (it.id == id) {
+                    it.copy(favorite = isFavorite)
+                } else {
+                    it
+                }
+            }?.let {
+                ApiResult.SUCCESS(it)
+            }
+        }
     }
 }
